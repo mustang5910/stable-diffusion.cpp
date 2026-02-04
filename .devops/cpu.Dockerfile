@@ -28,7 +28,7 @@ RUN apt-get update \
 ### Light, CLI only
 FROM runtime AS light
 
-COPY --from=build /sd.cpp/build/bin/sd-cli /app
+COPY --from=build /app/build/bin/sd-cli /app
 
 WORKDIR /app
 
@@ -37,7 +37,7 @@ ENTRYPOINT [ "/app/sd-cli" ]
 ### Server, Server only
 FROM runtime AS server
 
-COPY --from=build /sd.cpp/build/bin/sd-server /app
+COPY --from=build /app/build/bin/sd-server /app
 
 WORKDIR /app
 

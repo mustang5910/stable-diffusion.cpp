@@ -28,9 +28,9 @@ COPY . .
 
 RUN mkdir build && cd build && \
     cmake .. -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ \
-        -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -fopenmp -I/usr/lib/llvm-14/lib/clang/14.0.0/include -L/usr/lib/llvm-14/lib" \
-        -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -fopenmp -I/usr/lib/llvm-14/lib/clang/14.0.0/include -L/usr/lib/llvm-14/lib" \
-        -DSD_MUSA=ON -DCMAKE_BUILD_TYPE=Release && \
+    -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -fopenmp -I/usr/lib/llvm-14/lib/clang/14.0.0/include -L/usr/lib/llvm-14/lib" \
+    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -fopenmp -I/usr/lib/llvm-14/lib/clang/14.0.0/include -L/usr/lib/llvm-14/lib" \
+    -DSD_MUSA=ON -DCMAKE_BUILD_TYPE=Release && \
     cmake --build . --config Release
 
 ## Runtime image
@@ -47,7 +47,7 @@ RUN apt-get update \
 ### Light, CLI only
 FROM runtime AS light
 
-COPY --from=build /sd.cpp/build/bin/sd-cli /app
+COPY --from=build /app/build/bin/sd-cli /app
 
 WORKDIR /app
 
@@ -56,7 +56,7 @@ ENTRYPOINT [ "/app/sd-cli" ]
 ### Server, Server only
 FROM runtime AS server
 
-COPY --from=build /sd.cpp/build/bin/sd-server /app
+COPY --from=build /app/build/bin/sd-server /app
 
 WORKDIR /app
 
