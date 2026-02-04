@@ -44,6 +44,8 @@ RUN apt-get update \
     && find /var/cache/apt/archives /var/lib/apt/lists -not -name lock -type f -delete \
     && find /var/cache -type f -delete
 
+RUN mkdir -p /app/
+
 ### Light, CLI only
 FROM runtime AS light
 
